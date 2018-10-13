@@ -27,6 +27,17 @@ bool ADXL345_SetRange(uint8 g)
     return bSMBusWrite(ADXL345_ADDRESS, ADXL345_DATA_FORMAT_REG, 1, &reg);
 }
 
+//データレートを設定
+//ADXL345_DATA_RATE_xxxHZを渡す
+//lowPower=TRUEでLOW_POWERモードになり、400Hz以下で低消費電力になるものの、
+//ノイズが若干増大します。
+bool ADXL345_SetDataRate(uint8 dataRate, bool_t lowPower)
+{
+    uint8 reg = dataRate;
+    if(lowPower) reg |= 16;
+    return bSMBusWrite(ADXL345_ADDRESS, ADXL345_BW_RATE_REG, 1, &reg);
+}
+
 //モードを設定
 bool ADXL345_SetMode(ADXL345MODE mode)
 {
